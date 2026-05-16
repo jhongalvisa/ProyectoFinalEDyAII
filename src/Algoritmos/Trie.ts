@@ -1,6 +1,7 @@
 interface TrieNode {
   children: Map<string, TrieNode>;
   isEndOfWord: boolean;
+  suggestions: Set<string>;
 }
 
 export class Trie {
@@ -10,17 +11,20 @@ export class Trie {
     this.root = {
       children: new Map<string, TrieNode>(),
       isEndOfWord: false,
+      suggestions: new Set<string>(),
     };
   }
 
-  insert(word: string): void {
+  insert(text: string, originalValue: string = text): void {
     let currentNode: TrieNode = this.root;
+    const normalizedText = text.toLowerCase().trim();
 
-    for (const letter of word.toLowerCase()) {
+    for (const letter of normalizedText) {
       if (!currentNode.children.has(letter)) {
         currentNode.children.set(letter, {
           children: new Map<string, TrieNode>(),
           isEndOfWord: false,
+          suggestions: new Set<string>(),
         });
       }
 
@@ -28,41 +32,27 @@ export class Trie {
 
       if (nextNode) {
         currentNode = nextNode;
+        currentNode.suggestions.add(originalValue);
       }
     }
 
     currentNode.isEndOfWord = true;
   }
 
-  search(word: string): boolean {
+  searchByPrefix(prefix: string): string[] {
     let currentNode: TrieNode = this.root;
+    const normalizedPrefix = prefix.toLowerCase().trim();
 
-    for (const letter of word.toLowerCase()) {
+    for (const letter of normalizedPrefix) {
       const nextNode = currentNode.children.get(letter);
 
       if (!nextNode) {
-        return false;
+        return [];
       }
 
       currentNode = nextNode;
     }
 
-    return currentNode.isEndOfWord;
-  }
-
-  startsWith(prefix: string): boolean {
-    let currentNode: TrieNode = this.root;
-
-    for (const letter of prefix.toLowerCase()) {
-      const nextNode = currentNode.children.get(letter);
-
-      if (!nextNode) {
-        return false;
-      }
-
-      currentNode = nextNode;
-    }
-
-    return true;
+    return Array.from(currentNode.suggestions);
   }
 }
