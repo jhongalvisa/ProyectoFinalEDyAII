@@ -12,6 +12,7 @@ Proyecto desarrollado como entrega final para la asignatura **Estructuras de Dat
 
 | Repositorio GitHub | https://github.com/jhongalvisa/ProyectoFinalEDyAII |
 | Propuesta gráfica en Figma | https://www.figma.com/make/GX71ye5PGq0M0cQPQTFObv/Proyecto-FIGMA-EDyA-II?t=k2i51ltZvecCU1Cm-1 |
+| Proyecto funcional en Netlify | https://proyectodefinitivoedyaii.netlify.app/
 
 ---
 
